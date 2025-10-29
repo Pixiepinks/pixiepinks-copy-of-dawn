@@ -1,0 +1,81 @@
+<div class="salary-modal" data-salary-modal hidden aria-hidden="true">
+  <div class="salary-modal__dialog" role="dialog" aria-modal="true" aria-labelledby="salary-modal-title">
+    <form data-salary-form>
+      <div class="salary-modal__header">
+        <h2 class="salary-modal__title" id="salary-modal-title">Record salary</h2>
+        <div class="salary-modal__meta" data-salary-employee>
+          <div class="salary-modal__meta-item">
+            <strong>Employee</strong>
+            <span data-salary-employee-name></span>
+          </div>
+          <div class="salary-modal__meta-item">
+            <strong>Code</strong>
+            <span data-salary-employee-id></span>
+          </div>
+        </div>
+      </div>
+      <div class="salary-modal__body">
+        <div class="salary-modal__grid">
+          <div class="salary-modal__field">
+            <label>
+              Month
+              <input type="month" data-field="month" required>
+            </label>
+          </div>
+          <div class="salary-modal__field">
+            <label>
+              Basic salary
+              <input type="number" data-field="basic_salary" step="0.01" min="0" inputmode="decimal">
+            </label>
+          </div>
+          <div class="salary-modal__field">
+            <label>
+              General allowance
+              <input type="number" data-field="general_allowance" step="0.01" min="0" inputmode="decimal">
+            </label>
+          </div>
+          <div class="salary-modal__field">
+            <label>
+              Transport allowance
+              <input type="number" data-field="transport_allowance" step="0.01" min="0" inputmode="decimal">
+            </label>
+          </div>
+          <div class="salary-modal__field">
+            <label>
+              Special allowance
+              <input type="number" data-field="special_allowance" step="0.01" min="0" inputmode="decimal">
+            </label>
+          </div>
+          <div class="salary-modal__field">
+            <label>
+              Attendance (days)
+              <input type="number" data-field="attendance" step="0.01" min="0" inputmode="decimal">
+            </label>
+          </div>
+          <div class="salary-modal__field">
+            <label>
+              OT hours
+              <input type="number" data-field="overtime" step="0.01" min="0" inputmode="decimal">
+            </label>
+          </div>
+          <div class="salary-modal__field">
+            <label>
+              Production target allowance
+              <input type="number" data-field="production_target_allowance" step="0.01" min="0" inputmode="decimal">
+            </label>
+          </div>
+          <div class="salary-modal__field" style="grid-column: 1 / -1;">
+            <label>
+              Remarks
+              <input type="text" data-field="remarks" maxlength="120">
+            </label>
+          </div>
+        </div>
+      </div>
+      <div class="salary-modal__footer">
+        <button type="button" class="salary-modal__button salary-modal__button--secondary" data-salary-close>Cancel</button>
+        <button type="submit" class="salary-modal__button salary-modal__button--primary">Save attendance</button>
+      </div>
+    </form>
+  </div>
+</div>

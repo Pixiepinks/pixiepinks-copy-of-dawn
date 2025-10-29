@@ -1,0 +1,149 @@
+{% if section.blocks.size > 0 %}
+  {{ 'salary-sheet.css' | asset_url | stylesheet_tag }}
+  <script src="{{ 'salary-sheet.js' | asset_url }}" defer></script>
+{% endif %}
+
+<section class="salary-sheet" data-salary-sheet data-storage-key="salary-sheet:v1">
+  <div class="salary-sheet__heading">
+    <div>
+      <h2 class="h1">Salary sheet</h2>
+      <p class="subtitle">Review monthly compensation details and capture attendance, OT and production incentives.</p>
+    </div>
+  </div>
+
+  {% if section.blocks.size == 0 %}
+    <div class="salary-sheet__empty">
+      <p>Add employee blocks to start recording monthly salary information.</p>
+    </div>
+  {% else %}
+    <div class="salary-sheet__table-wrapper">
+      <table class="salary-sheet__table">
+        <thead>
+          <tr>
+            <th scope="col">Employee code</th>
+            <th scope="col">Employee name</th>
+            <th scope="col">Basic salary</th>
+            <th scope="col">General allowance</th>
+            <th scope="col">Transport allowance</th>
+            <th scope="col">Special allowance</th>
+            <th scope="col">Attendance</th>
+            <th scope="col">OT</th>
+            <th scope="col">Production target allowance</th>
+            <th scope="col" class="salary-sheet__actions">Actions</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for block in section.blocks %}
+            <tr
+              data-salary-row
+              data-employee-id="{{ block.settings.employee_id | escape }}"
+              data-employee-name="{{ block.settings.employee_name | escape }}"
+              data-initial-basic-salary="{{ block.settings.basic_salary }}"
+              data-initial-general-allowance="{{ block.settings.general_allowance }}"
+              data-initial-transport-allowance="{{ block.settings.transport_allowance }}"
+              data-initial-special-allowance="{{ block.settings.special_allowance }}"
+              id="salary-row-{{ block.id }}"
+            >
+              <td headers="salary-row-{{ block.id }}">{{ block.settings.employee_id }}</td>
+              <td>{{ block.settings.employee_name }}</td>
+              <td data-cell="basic_salary">{{ block.settings.basic_salary | default: '—' }}</td>
+              <td data-cell="general_allowance">{{ block.settings.general_allowance | default: '—' }}</td>
+              <td data-cell="transport_allowance">{{ block.settings.transport_allowance | default: '—' }}</td>
+              <td data-cell="special_allowance">{{ block.settings.special_allowance | default: '—' }}</td>
+              <td data-cell="attendance"></td>
+              <td data-cell="overtime"></td>
+              <td data-cell="production_target_allowance"></td>
+              <td class="salary-sheet__actions">
+                <button type="button" data-salary-open data-employee-id="{{ block.settings.employee_id | escape }}">
+                  Record salary
+                </button>
+              </td>
+            </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+  {% endif %}
+
+  {% render 'salary-sheet-modal' %}
+</section>
+
+{% schema %}
+{
+  "name": "Salary sheet",
+  "tag": "section",
+  "settings": [],
+  "blocks": [
+    {
+      "type": "employee",
+      "name": "Employee",
+      "settings": [
+        {
+          "type": "text",
+          "id": "employee_id",
+          "label": "Employee code",
+          "default": "E001"
+        },
+        {
+          "type": "text",
+          "id": "employee_name",
+          "label": "Employee name",
+          "default": "Employee name"
+        },
+        {
+          "type": "number",
+          "id": "basic_salary",
+          "label": "Basic salary",
+          "min": 0,
+          "step": 0.01,
+          "default": 0
+        },
+        {
+          "type": "number",
+          "id": "general_allowance",
+          "label": "General allowance",
+          "min": 0,
+          "step": 0.01,
+          "default": 0
+        },
+        {
+          "type": "number",
+          "id": "transport_allowance",
+          "label": "Transport allowance",
+          "min": 0,
+          "step": 0.01,
+          "default": 0
+        },
+        {
+          "type": "number",
+          "id": "special_allowance",
+          "label": "Special allowance",
+          "min": 0,
+          "step": 0.01,
+          "default": 0
+        }
+      ]
+    }
+  ],
+  "max_blocks": 50,
+  "presets": [
+    {
+      "name": "Salary sheet",
+      "category": "Custom",
+      "blocks": [
+        {
+          "type": "employee",
+          "settings": {
+            "employee_id": "E001",
+            "employee_name": "Employee 1",
+            "basic_salary": 0,
+            "general_allowance": 0,
+            "transport_allowance": 0,
+            "special_allowance": 0
+          }
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}

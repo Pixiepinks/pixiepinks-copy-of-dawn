@@ -1,0 +1,195 @@
+.salary-sheet {
+  margin: 3rem auto;
+  max-width: 100%;
+}
+
+.salary-sheet__heading {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 1.5rem;
+  margin-bottom: 1.5rem;
+}
+
+.salary-sheet__table-wrapper {
+  overflow-x: auto;
+}
+
+.salary-sheet__table {
+  width: 100%;
+  border-collapse: collapse;
+  min-width: 720px;
+}
+
+.salary-sheet__table th,
+.salary-sheet__table td {
+  border: 1px solid rgba(var(--color-foreground), 0.08);
+  padding: 0.75rem 1rem;
+  text-align: left;
+  font-size: 0.9375rem;
+}
+
+.salary-sheet__table th {
+  background: rgba(var(--color-background), 0.6);
+  font-weight: 600;
+}
+
+.salary-sheet__actions button {
+  appearance: none;
+  border: 1px solid rgba(var(--color-foreground), 0.2);
+  background: rgb(var(--color-background));
+  color: rgb(var(--color-foreground));
+  border-radius: 999px;
+  padding: 0.5rem 1.25rem;
+  font-size: 0.875rem;
+  cursor: pointer;
+  transition: background 0.2s ease, color 0.2s ease;
+}
+
+.salary-sheet__actions button:hover,
+.salary-sheet__actions button:focus {
+  outline: none;
+  background: rgba(var(--color-foreground), 0.1);
+}
+
+.salary-modal[hidden] {
+  display: none !important;
+}
+
+.salary-modal {
+  position: fixed;
+  inset: 0;
+  z-index: 999;
+  background: rgba(17, 24, 39, 0.45);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 1.5rem;
+}
+
+.salary-modal__dialog {
+  background: rgb(var(--color-background));
+  color: rgba(var(--color-foreground), 0.9);
+  border-radius: 1rem;
+  width: min(720px, 100%);
+  max-height: 90vh;
+  display: flex;
+  flex-direction: column;
+  box-shadow: 0 20px 45px rgba(15, 23, 42, 0.25);
+}
+
+.salary-modal__header,
+.salary-modal__footer {
+  padding: 1.25rem 1.5rem;
+  border-bottom: 1px solid rgba(var(--color-foreground), 0.08);
+}
+
+.salary-modal__footer {
+  border-top: 1px solid rgba(var(--color-foreground), 0.08);
+  border-bottom: 0;
+  display: flex;
+  justify-content: flex-end;
+  gap: 0.75rem;
+}
+
+.salary-modal__title {
+  margin: 0;
+  font-size: 1.25rem;
+}
+
+.salary-modal__body {
+  padding: 1.5rem;
+  overflow-y: auto;
+}
+
+.salary-modal__grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 1rem 1.25rem;
+}
+
+.salary-modal__field label {
+  display: flex;
+  flex-direction: column;
+  font-size: 0.85rem;
+  color: rgba(var(--color-foreground), 0.72);
+  gap: 0.4rem;
+}
+
+.salary-modal__field input,
+.salary-modal__field select {
+  border: 1px solid rgba(var(--color-foreground), 0.24);
+  border-radius: 0.6rem;
+  padding: 0.6rem 0.75rem;
+  font-size: 0.95rem;
+  background: rgb(var(--color-background));
+  color: rgba(var(--color-foreground), 0.9);
+}
+
+.salary-modal__button {
+  appearance: none;
+  border: none;
+  border-radius: 999px;
+  padding: 0.75rem 1.5rem;
+  font-size: 0.95rem;
+  cursor: pointer;
+  transition: transform 0.2s ease, background 0.2s ease;
+}
+
+.salary-modal__button--primary {
+  background: rgb(var(--color-button));
+  color: rgb(var(--color-button-text));
+}
+
+.salary-modal__button--primary:hover,
+.salary-modal__button--primary:focus {
+  transform: translateY(-1px);
+}
+
+.salary-modal__button--secondary {
+  background: transparent;
+  color: rgba(var(--color-foreground), 0.7);
+}
+
+.salary-modal__meta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1.5rem;
+  margin-bottom: 1.5rem;
+  font-size: 0.9rem;
+}
+
+.salary-modal__meta-item strong {
+  display: block;
+  font-size: 0.82rem;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: rgba(var(--color-foreground), 0.6);
+  margin-bottom: 0.35rem;
+}
+
+.salary-sheet__empty {
+  padding: 2rem;
+  text-align: center;
+  border: 1px dashed rgba(var(--color-foreground), 0.2);
+  border-radius: 0.75rem;
+  font-size: 0.95rem;
+  background: rgba(var(--color-background), 0.4);
+}
+
+@media (max-width: 640px) {
+  .salary-modal__dialog {
+    border-radius: 0.75rem;
+    max-height: 96vh;
+  }
+
+  .salary-modal__header,
+  .salary-modal__footer {
+    padding: 1rem 1.125rem;
+  }
+
+  .salary-modal__body {
+    padding: 1.125rem;
+  }
+}
