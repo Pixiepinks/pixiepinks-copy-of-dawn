@@ -2138,10 +2138,12 @@ product-info .loading-overlay:not(.hidden) ~ *,
 }
 
 .utility-bar__grid .list-social {
-  justify-content: flex-start;
+  justify-content: flex-end;
   align-content: center;
-  margin-left: -1.2rem;
+  margin-left: 0;
+  margin-right: -1.2rem;
   grid-area: social-icons;
+  justify-self: end;
 }
 
 @media screen and (max-width: 989px) {
@@ -2157,12 +2159,12 @@ product-info .loading-overlay:not(.hidden) ~ *,
 @media screen and (min-width: 990px) {
   .utility-bar__grid--3-col {
     grid-template-columns: 3fr 4fr 3fr;
-    grid-template-areas: 'social-icons announcements language-currency';
+    grid-template-areas: 'language-currency announcements social-icons';
   }
 
   .utility-bar__grid--2-col {
     grid-template-columns: 1fr 1fr;
-    grid-template-areas: 'social-icons language-currency';
+    grid-template-areas: 'language-currency social-icons';
   }
 
   .announcement-bar.announcement-bar--one-announcement,
