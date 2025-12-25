@@ -1,8 +1,12 @@
 {% layout 'theme' %}
 
 {% assign featured_collection = collections['frontpage'] %}
-{% if featured_collection == nil or featured_collection.products_count == 0 %}
+{% if featured_collection == nil or featured_collection.products_count | default: 0 | plus: 0 == 0 %}
   {% assign featured_collection = collections['all'] %}
+{% endif %}
+{% assign featured_collection_count = 0 %}
+{% if featured_collection %}
+  {% assign featured_collection_count = featured_collection.products_count | default: 0 | plus: 0 %}
 {% endif %}
 
 <section class="page-width section">
@@ -105,7 +109,7 @@
   </style>
 
   <div class="homepage-products">
-    {% if featured_collection and featured_collection.products_count > 0 %}
+    {% if featured_collection and featured_collection_count > 0 %}
       {% paginate featured_collection.products by 12 %}
         <div class="products-grid" role="list">
           {% for product in featured_collection.products %}
