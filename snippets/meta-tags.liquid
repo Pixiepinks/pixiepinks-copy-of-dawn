@@ -1,0 +1,36 @@
+{%- liquid
+  assign seo_title = page_title | default: shop.name
+  assign seo_description = page_description | default: shop.meta_description | default: shop.name
+
+  if template.name == 'product' and product.featured_media
+    assign social_image = product.featured_media | image_url: width: 1200
+  elsif template.name == 'article' and article.image
+    assign social_image = article.image | image_url: width: 1200
+  elsif template.name == 'collection' and collection.image
+    assign social_image = collection.image | image_url: width: 1200
+  elsif page_image
+    assign social_image = page_image | image_url: width: 1200
+  elsif settings.logo
+    assign social_image = settings.logo | image_url: width: 600
+  endif
+-%}
+
+<meta property="og:site_name" content="{{ shop.name }}">
+<meta property="og:type" content="{% if template.name == 'product' %}product{% else %}website{% endif %}">
+<meta property="og:title" content="{{ seo_title | escape }}">
+<meta property="og:url" content="{{ canonical_url }}">
+<meta property="og:description" content="{{ seo_description | escape }}">
+{% if social_image %}
+  <meta property="og:image" content="{{ social_image | prepend: 'https:' }}">
+{% endif %}
+
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="{{ seo_title | escape }}">
+<meta name="twitter:description" content="{{ seo_description | escape }}">
+{% if social_image %}
+  <meta name="twitter:image" content="{{ social_image | prepend: 'https:' }}">
+{% endif %}
+
+{% if request.locale.iso_code != shop.primary_locale %}
+  <link rel="alternate" href="{{ canonical_url }}" hreflang="{{ request.locale.iso_code }}">
+{% endif %}
