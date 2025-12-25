@@ -3642,6 +3642,11 @@ details-disclosure > details {
   transition: transform 120ms ease, box-shadow 120ms ease, background-color 120ms ease;
 }
 
+.top-search__action-button--icon-only {
+  padding: 0.5rem 0.65rem;
+  gap: 0.25rem;
+}
+
 .top-search__action-icon {
   display: inline-flex;
   align-items: center;
@@ -3651,6 +3656,12 @@ details-disclosure > details {
 .top-search__action-icon .icon {
   width: 18px;
   height: 18px;
+}
+
+.top-search__action-icon img {
+  display: block;
+  width: 24px;
+  height: 24px;
 }
 
 .top-search__action-button:hover {
