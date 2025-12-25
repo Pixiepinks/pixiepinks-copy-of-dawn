@@ -84,6 +84,8 @@
     }
 
     .product-card__actions {
+      display: grid;
+      gap: 0.5rem;
       margin-top: auto;
     }
 
@@ -108,6 +110,11 @@
       box-shadow: 0 10px 18px rgba(0, 0, 0, 0.08);
     }
 
+    .product-card__cta--loading {
+      opacity: 0.7;
+      cursor: progress;
+    }
+
     .products-empty {
       margin-top: 1.5rem;
       color: #555;
@@ -118,6 +125,22 @@
       cursor: not-allowed;
       box-shadow: none;
       transform: none;
+    }
+
+    .product-card__message {
+      font-size: 0.9rem;
+      color: #0b735e;
+      line-height: 1.4;
+      min-height: 1.2em;
+    }
+
+    .product-card__message--error {
+      color: #b42318;
+    }
+
+    .product-card__message a {
+      color: #0b735e;
+      text-decoration: underline;
     }
   </style>
 
@@ -150,12 +173,13 @@
                 </div>
                 <div class="product-card__actions">
                   {% if featured_variant and featured_variant.available %}
-                    <form method="post" action="/cart/add">
+                    <form method="post" action="/cart/add" class="product-card__form" data-variant-id="{{ featured_variant.id }}">
                       <input type="hidden" name="id" value="{{ featured_variant.id }}">
                       <button class="product-card__cta" type="submit" aria-label="Add {{ product.title }} to cart">
                         Add to cart
                       </button>
                     </form>
+                    <p class="product-card__message" role="status" aria-live="polite"></p>
                   {% else %}
                     <button class="product-card__cta" type="button" disabled aria-label="{{ product.title }} is sold out">
                       Sold out
@@ -173,3 +197,63 @@
     {% endif %}
   </div>
 </section>
+
+<script>
+  (function () {
+    const forms = document.querySelectorAll('.product-card__form');
+    if (!forms.length) return;
+
+    forms.forEach((form) => {
+      const submitButton = form.querySelector('.product-card__cta');
+      const status = form.parentElement.querySelector('.product-card__message');
+      const defaultText = submitButton ? submitButton.textContent.trim() : 'Add to cart';
+
+      form.addEventListener('submit', async (event) => {
+        event.preventDefault();
+        if (!submitButton) return;
+
+        const variantId = form.dataset.variantId;
+        if (!variantId) return;
+
+        submitButton.disabled = true;
+        submitButton.classList.add('product-card__cta--loading');
+        submitButton.textContent = 'Adding...';
+
+        if (status) {
+          status.textContent = 'Adding to cart...';
+          status.classList.remove('product-card__message--error');
+        }
+
+        try {
+          const response = await fetch('/cart/add.js', {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json',
+              Accept: 'application/json',
+            },
+            body: JSON.stringify({ id: Number(variantId), quantity: 1 }),
+          });
+
+          if (!response.ok) {
+            const errorData = await response.json().catch(() => ({}));
+            throw new Error(errorData.description || 'Unable to add this item to your cart right now.');
+          }
+
+          if (status) {
+            status.innerHTML = 'Added to cart! <a href="/checkout">Go to checkout</a>';
+            status.classList.remove('product-card__message--error');
+          }
+        } catch (error) {
+          if (status) {
+            status.textContent = error.message;
+            status.classList.add('product-card__message--error');
+          }
+        } finally {
+          submitButton.disabled = false;
+          submitButton.classList.remove('product-card__cta--loading');
+          submitButton.textContent = defaultText;
+        }
+      });
+    });
+  })();
+</script>
