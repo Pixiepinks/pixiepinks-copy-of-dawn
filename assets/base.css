@@ -2116,6 +2116,54 @@ product-info .loading-overlay:not(.hidden) ~ *,
   line-height: calc(1 + 0.1 / var(--font-body-scale));
 }
 
+.floating-social-icons {
+  position: fixed;
+  top: 1.4rem;
+  right: 1.4rem;
+  z-index: 10;
+}
+
+.floating-social-icons__list {
+  display: flex;
+  gap: 0.4rem;
+  align-items: center;
+}
+
+.floating-social-icons__link {
+  display: inline-flex;
+  justify-content: center;
+  align-items: center;
+  width: 2.8rem;
+  height: 2.8rem;
+  border-radius: 999px;
+  background: rgba(var(--color-background), 0.9);
+  color: rgb(var(--color-foreground));
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.12);
+  transition: transform 120ms ease, box-shadow 120ms ease;
+}
+
+.floating-social-icons__link .icon {
+  width: 1.5rem;
+  height: 1.5rem;
+}
+
+.floating-social-icons__link:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.16);
+}
+
+@media screen and (max-width: 749px) {
+  .floating-social-icons {
+    top: 1rem;
+    right: 1rem;
+  }
+
+  .floating-social-icons__link {
+    width: 2.6rem;
+    height: 2.6rem;
+  }
+}
+
 /* utility-bar */
 .utility-bar {
   height: 100%;
