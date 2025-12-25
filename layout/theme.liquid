@@ -375,6 +375,7 @@
 
       <div class="top-search__actions" aria-label="Quick links">
         <a class="top-search__action-button" href="{{ routes.cart_url }}">
+          <span class="top-search__action-icon" aria-hidden="true">{%- render 'icon-cart' -%}</span>
           {{ 'general.cart.cart' | t | default: 'Cart' }}
           {%- if cart != empty and cart.item_count > 0 -%}
             <span class="top-search__action-badge">{{ cart.item_count }}</span>
