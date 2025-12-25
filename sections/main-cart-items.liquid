@@ -1,0 +1,125 @@
+{{ 'component-cart.css' | asset_url | stylesheet_tag }}
+{{ 'component-cart-items.css' | asset_url | stylesheet_tag }}
+{{ 'component-price.css' | asset_url | stylesheet_tag }}
+{{ 'component-discounts.css' | asset_url | stylesheet_tag }}
+{{ 'component-loading-overlay.css' | asset_url | stylesheet_tag }}
+
+<section
+  class="page-width"
+  style="padding-top: {{ section.settings.padding_top }}px; padding-bottom: {{ section.settings.padding_bottom }}px;"
+>
+  <div class="title-wrapper-with-link">
+    <h1 class="title title--primary">{{ 'sections.cart.title' | t | default: 'Your cart' }}</h1>
+    <a class="underlined-link" href="{{ routes.all_products_collection_url }}">{{ 'general.continue_shopping' | t | default: 'Continue shopping' }}</a>
+  </div>
+
+  <p id="shopping-cart-line-item-status" class="visually-hidden" role="status" aria-hidden="true"></p>
+  <div id="cart-errors" class="cart__errors" role="alert"></div>
+
+  <cart-items
+    id="main-cart-items"
+    class="cart-items{% if cart == empty %} is-empty{% endif %}"
+    data-id="{{ section.id }}"
+  >
+    {% if cart == empty %}
+      <div class="cart__warnings js-contents">
+        <p class="cart__empty-text">{{ 'sections.cart.empty' | t | default: 'Your cart is currently empty.' }}</p>
+        <a href="{{ routes.all_products_collection_url }}" class="button">{{ 'general.continue_shopping' | t | default: 'Continue shopping' }}</a>
+      </div>
+    {% else %}
+      <form action="{{ routes.cart_url }}" method="post" novalidate class="cart__contents">
+        <div class="cart-items__content js-contents" role="table">
+          {% for item in cart.items %}
+            <div class="cart-item" id="CartItem-{{ forloop.index }}" data-index="{{ forloop.index }}" role="row">
+              <div class="cart-item__media" role="cell">
+                {% if item.image %}
+                  <a href="{{ item.url }}" aria-label="{{ item.title }}">
+                    {{ item.image | image_url: width: 240 | image_tag: loading: 'lazy', class: 'cart-item__image' }}
+                  </a>
+                {% endif %}
+              </div>
+
+              <div class="cart-item__details" role="cell">
+                <a href="{{ item.url }}" class="cart-item__name">{{ item.product.title | escape }}</a>
+                {% unless item.product.has_only_default_variant %}
+                  <div class="cart-item__variant">{{ item.variant.title }}</div>
+                {% endunless %}
+                {% if item.properties.size > 0 %}
+                  <ul class="product-details">
+                    {% for property in item.properties %}
+                      {% unless property.last == blank %}
+                        <li>{{ property.first }}: {{ property.last }}</li>
+                      {% endunless %}
+                    {% endfor %}
+                  </ul>
+                {% endif %}
+
+                <div class="cart-item__price-list">
+                  <span class="price">{{ item.final_line_price | money }}</span>
+                  {% if item.original_line_price > item.final_line_price %}
+                    <s class="price price--compare">{{ item.original_line_price | money }}</s>
+                  {% endif %}
+                </div>
+
+                <div class="cart-item__quantity-wrapper">
+                  <label class="visually-hidden" for="Quantity-{{ forloop.index }}">{{ 'products.product.quantity' | t | default: 'Quantity' }}</label>
+                  <input
+                    class="quantity__input"
+                    type="number"
+                    name="updates[]"
+                    id="Quantity-{{ forloop.index }}"
+                    min="0"
+                    value="{{ item.quantity }}"
+                    data-index="{{ forloop.index }}"
+                    data-quantity-variant-id="{{ item.variant_id }}"
+                  >
+                  <cart-remove-button
+                    class="button button--tertiary"
+                    data-index="{{ forloop.index }}"
+                    aria-label="{{ 'sections.cart.remove_title' | t: title: item.title | default: 'Remove' }}"
+                  >
+                    {{ 'sections.cart.remove' | t | default: 'Remove' }}
+                  </cart-remove-button>
+                </div>
+
+                <div class="cart-item__error" id="Line-item-error-{{ forloop.index }}" role="alert">
+                  <small class="cart-item__error-text"></small>
+                </div>
+              </div>
+
+              {% render 'loading-overlay' %}
+            </div>
+          {% endfor %}
+        </div>
+      </form>
+    {% endif %}
+  </cart-items>
+</section>
+
+{% schema %}
+{
+  "name": "Cart items",
+  "settings": [
+    {
+      "type": "range",
+      "id": "padding_top",
+      "min": 0,
+      "max": 80,
+      "step": 4,
+      "unit": "px",
+      "default": 36,
+      "label": "Padding top"
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "min": 0,
+      "max": 80,
+      "step": 4,
+      "unit": "px",
+      "default": 36,
+      "label": "Padding bottom"
+    }
+  ]
+}
+{% endschema %}
