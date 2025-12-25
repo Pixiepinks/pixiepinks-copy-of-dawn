@@ -1,0 +1,65 @@
+{% comment %}
+  Combined announcement and header content to keep the store functional while the original section files are unavailable.
+{% endcomment %}
+
+<div class="header-wrapper">
+  {% if section.settings.show_announcement and section.settings.announcement_text != blank %}
+    <div class="announcement-bar" role="region" aria-label="Announcement">
+      <div class="page-width announcement-bar__content">{{ section.settings.announcement_text }}</div>
+    </div>
+  {% endif %}
+
+  <header class="page-width header" role="banner">
+    <div class="header__inner">
+      <a class="header__heading-link" href="{{ routes.root_url }}" aria-label="{{ shop.name }}">
+        {% if settings.logo != blank %}
+          <img
+            src="{{ settings.logo | image_url: width: 200 }}"
+            loading="lazy"
+            width="{{ settings.logo.width }}"
+            height="{{ settings.logo.height }}"
+            alt="{{ shop.name }}"
+            class="header__logo"
+          >
+        {% else %}
+          <span class="header__logo-text">{{ shop.name }}</span>
+        {% endif %}
+      </a>
+
+      <nav class="header__menu" aria-label="Main navigation">
+        <a href="{{ routes.all_products_collection_url }}" class="header__menu-link">
+          {{ 'general.search.view_all' | t | default: 'Shop all' }}
+        </a>
+      </nav>
+
+      <div class="header__actions">
+        <a href="{{ routes.search_url }}" class="header__action" aria-label="{{ 'general.search.search' | t | default: 'Search' }}">
+          {{ 'general.search.search' | t | default: 'Search' }}
+        </a>
+        <a href="{{ routes.account_login_url }}" class="header__action">
+          {{ 'customer.login_page.title' | t | default: 'Sign in' }}
+        </a>
+      </div>
+    </div>
+  </header>
+</div>
+
+{% schema %}
+{
+  "name": "Header group",
+  "settings": [
+    {
+      "type": "checkbox",
+      "id": "show_announcement",
+      "default": false,
+      "label": "Show announcement"
+    },
+    {
+      "type": "text",
+      "id": "announcement_text",
+      "label": "Announcement text",
+      "default": "Free shipping on all orders"
+    }
+  ]
+}
+{% endschema %}
