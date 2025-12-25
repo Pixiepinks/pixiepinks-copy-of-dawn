@@ -3636,9 +3636,9 @@ details-disclosure > details {
   font-weight: 700;
   font-size: 1.1rem;
   text-decoration: none;
-  color: #fff;
-  background: #e63946;
-  box-shadow: 0 8px 18px rgba(230, 57, 70, 0.2);
+  color: #111;
+  background: transparent;
+  box-shadow: none;
   transition: transform 120ms ease, box-shadow 120ms ease, background-color 120ms ease;
 }
 
@@ -3666,17 +3666,26 @@ details-disclosure > details {
 
 .top-search__action-button:hover {
   transform: translateY(-1px);
-  box-shadow: 0 12px 22px rgba(230, 57, 70, 0.28);
+  box-shadow: none;
 }
 
 .top-search__action-button:active {
   transform: translateY(0);
+  box-shadow: none;
 }
 
 .top-search__action-button--secondary {
   background: #111;
   box-shadow: 0 8px 18px rgba(0, 0, 0, 0.2);
   color: #fff;
+}
+
+.top-search__action-button--secondary:hover {
+  box-shadow: 0 12px 22px rgba(0, 0, 0, 0.22);
+}
+
+.top-search__action-button--secondary:active {
+  box-shadow: 0 8px 18px rgba(0, 0, 0, 0.2);
 }
 
 .top-search__action-badge {
