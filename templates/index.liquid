@@ -1,9 +1,146 @@
 {% layout 'theme' %}
+
+{% assign featured_collection = collections['frontpage'] %}
+{% if featured_collection == nil or featured_collection.products_count == 0 %}
+  {% assign featured_collection = collections['all'] %}
+{% endif %}
+
 <section class="page-width section">
   <div class="rich-text">
     <h1 class="rich-text__heading">{{ shop.name }}</h1>
     <div class="rich-text__text">
-      <p>Your storefront is almost ready. Update this homepage template to start sharing your products.</p>
+      <p>Browse our latest products.</p>
     </div>
+  </div>
+
+  <style>
+    .homepage-products {
+      margin-top: 2rem;
+    }
+
+    .products-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+      gap: 1.5rem;
+    }
+
+    .product-card {
+      display: flex;
+      flex-direction: column;
+      gap: 0.75rem;
+      background: #fff;
+      border: 1px solid rgba(0, 0, 0, 0.06);
+      border-radius: 12px;
+      overflow: hidden;
+      box-shadow: 0 8px 16px rgba(0, 0, 0, 0.04);
+      height: 100%;
+    }
+
+    .product-card__media {
+      position: relative;
+      padding-top: 100%;
+      overflow: hidden;
+      background: #fafafa;
+    }
+
+    .product-card__media img {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    .product-card__content {
+      display: flex;
+      flex-direction: column;
+      gap: 0.5rem;
+      padding: 1rem 1.25rem 1.25rem;
+      flex: 1;
+    }
+
+    .product-card__title {
+      font-size: 1rem;
+      line-height: 1.4;
+      color: #111;
+      font-weight: 600;
+    }
+
+    .product-card__price {
+      display: flex;
+      gap: 0.5rem;
+      align-items: baseline;
+      color: #111;
+      font-weight: 700;
+    }
+
+    .product-card__price del {
+      color: #8a8a8a;
+      font-weight: 500;
+    }
+
+    .product-card__cta {
+      margin-top: auto;
+      display: inline-flex;
+      justify-content: center;
+      align-items: center;
+      gap: 0.5rem;
+      padding: 0.75rem 1rem;
+      background: #111;
+      color: #fff;
+      border-radius: 10px;
+      text-decoration: none;
+      transition: transform 120ms ease, box-shadow 120ms ease;
+    }
+
+    .product-card__cta:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 10px 18px rgba(0, 0, 0, 0.08);
+    }
+
+    .products-empty {
+      margin-top: 1.5rem;
+      color: #555;
+    }
+  </style>
+
+  <div class="homepage-products">
+    {% if featured_collection and featured_collection.products_count > 0 %}
+      {% paginate featured_collection.products by 12 %}
+        <div class="products-grid" role="list">
+          {% for product in featured_collection.products %}
+            <article class="product-card" role="listitem">
+              <div class="product-card__media">
+                {% if product.featured_media %}
+                  <img
+                    src="{{ product.featured_media | image_url: width: 700 }}"
+                    alt="{{ product.featured_media.alt | escape | default: product.title }}"
+                    loading="lazy"
+                  >
+                {% else %}
+                  <div class="product-card__placeholder"></div>
+                {% endif %}
+              </div>
+
+              <div class="product-card__content">
+                <h2 class="product-card__title">{{ product.title }}</h2>
+                <div class="product-card__price">
+                  <span>{{ product.price | money }}</span>
+                  {% if product.compare_at_price_max > product.price %}
+                    <del>{{ product.compare_at_price_max | money }}</del>
+                  {% endif %}
+                </div>
+                <a class="product-card__cta" href="{{ product.url }}" aria-label="View {{ product.title }}">
+                  View product
+                </a>
+              </div>
+            </article>
+          {% endfor %}
+        </div>
+        {{ paginate | default_pagination }}
+      {% endpaginate %}
+    {% else %}
+      <p class="products-empty">No products available yet. Add products to your catalog to see them here.</p>
+    {% endif %}
   </div>
 </section>
