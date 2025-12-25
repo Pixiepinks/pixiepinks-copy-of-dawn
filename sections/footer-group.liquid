@@ -1,0 +1,30 @@
+<footer class="footer" role="contentinfo">
+  <div class="page-width footer__content">
+    <div class="footer__branding">
+      <div class="footer__title">{{ shop.name }}</div>
+      <div class="footer__copy">&copy; {{ 'now' | date: '%Y' }} {{ shop.name }}</div>
+    </div>
+
+    <div class="footer__links">
+      <a href="{{ routes.all_products_collection_url }}">{{ 'general.search.view_all' | t | default: 'Shop all products' }}</a>
+      <a href="{{ routes.policy_privacy_url | default: routes.root_url }}">{{ 'general.accessibility.privacy_policy' | t | default: 'Privacy' }}</a>
+    </div>
+
+    <div class="footer__contact">
+      <a href="mailto:{{ shop.email }}">{{ shop.email }}</a>
+    </div>
+  </div>
+</footer>
+
+{% schema %}
+{
+  "name": "Footer",
+  "tag": "section-group",
+  "settings": [],
+  "presets": [
+    {
+      "name": "Footer"
+    }
+  ]
+}
+{% endschema %}

@@ -1,0 +1,15 @@
+<div id="cart-live-region-text" class="visually-hidden" aria-live="polite" role="status" aria-hidden="true">
+  {{ 'sections.cart.cart_status' | t | default: 'Cart updated.' }}
+</div>
+
+{% schema %}
+{
+  "name": "Cart live region",
+  "settings": [],
+  "presets": [
+    {
+      "name": "Cart live region"
+    }
+  ]
+}
+{% endschema %}
