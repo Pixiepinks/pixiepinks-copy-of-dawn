@@ -372,6 +372,26 @@
           </button>
         </form>
       </div>
+
+      <div class="top-search__actions" aria-label="Quick links">
+        <a class="top-search__action-button" href="{{ routes.cart_url }}">
+          {{ 'general.cart.cart' | t | default: 'Cart' }}
+          {%- if cart != empty and cart.item_count > 0 -%}
+            <span class="top-search__action-badge">{{ cart.item_count }}</span>
+          {%- endif -%}
+        </a>
+
+        <a
+          class="top-search__action-button top-search__action-button--secondary"
+          href="{%- if customer -%}{{ routes.account_url }}{%- else -%}{{ routes.account_login_url }}{%- endif -%}"
+        >
+          {%- if customer -%}
+            {{ 'customer.account.title' | t | default: 'Account' }}
+          {%- else -%}
+            {{ 'customer.login_page.title' | t | default: 'Sign in' }}
+          {%- endif -%}
+        </a>
+      </div>
     </div>
 
     <main id="MainContent" class="content-for-layout focus-none" role="main" tabindex="-1">
