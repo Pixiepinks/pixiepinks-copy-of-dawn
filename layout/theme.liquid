@@ -374,8 +374,10 @@
       </div>
 
       <div class="top-search__actions" aria-label="Quick links">
-        <a class="top-search__action-button" href="{{ routes.cart_url }}">
-          {{ 'general.cart.cart' | t | default: 'Cart' }}
+        <a class="top-search__action-button top-search__action-button--icon-only" href="{{ routes.cart_url }}" aria-label="{{ 'general.cart.cart' | t | default: 'Cart' }}">
+          <span class="top-search__action-icon" aria-hidden="true">
+            <img src="{{ 'cart-colored.svg' | asset_url }}" alt="" loading="lazy">
+          </span>
           {%- if cart != empty and cart.item_count > 0 -%}
             <span class="top-search__action-badge">{{ cart.item_count }}</span>
           {%- endif -%}
