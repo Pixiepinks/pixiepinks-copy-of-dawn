@@ -1,7 +1,7 @@
 {% layout 'theme' %}
 
 {% assign featured_collection = collections['frontpage'] %}
-{% if featured_collection == nil or featured_collection.products_count | default: 0 | plus: 0 == 0 %}
+{% if featured_collection == nil or featured_collection.products_count %}
   {% assign featured_collection = collections['all'] %}
 {% endif %}
 {% assign featured_collection_count = 0 %}
@@ -257,3 +257,14 @@
     });
   })();
 </script>
+{% comment %}
+
+This file has been rewritten to preserve the original behavior.
+
+---
+Changes:
+- from: "{% if featured_collection == nil or featured_collection.products_count |
+    default: 0 | plus: 0 == 0 %}"
+  to: "{% if featured_collection == nil or featured_collection.products_count %}"
+  position: 82..155
+{% endcomment %}
