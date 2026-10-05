@@ -1,0 +1,13 @@
+<section class="pp-section pp-container">
+  <div class="pp-heading-row"><h2>{{ section.settings.heading }}</h2>{% if section.settings.collection != blank and section.settings.show_view_all %}<a href="{{ section.settings.collection.url }}">View all →</a>{% endif %}</div>
+  <div class="pp-products" style="--pp-cols:{{ section.settings.columns }}" role="list">
+    {% if section.settings.collection != blank and section.settings.collection.products_count > 0 %}
+      {% for product in section.settings.collection.products limit: section.settings.products_to_show %}<div role="listitem">{% render 'pixiepinks-product-card', product: product, show_secondary: section.settings.show_secondary, quick_add: section.settings.quick_add, show_new: section.settings.show_new %}</div>{% endfor %}
+    {% else %}
+      {% for i in (1..section.settings.products_to_show) limit: section.settings.columns %}<div class="pp-card" role="listitem"><div class="pp-card__media">{{ 'product-' | append: i | placeholder_svg_tag }}</div><div class="pp-card__content"><h3>Choose a collection</h3><div class="pp-card__price">{{ 199900 | money }}</div></div></div>{% endfor %}
+    {% endif %}
+  </div>
+</section>
+{% schema %}
+{"name":"PixiePinks collection","settings":[{"type":"text","id":"heading","label":"Heading","default":"Featured products"},{"type":"collection","id":"collection","label":"Collection"},{"type":"range","id":"products_to_show","label":"Products to show","min":2,"max":12,"step":1,"default":5},{"type":"range","id":"columns","label":"Desktop columns","min":2,"max":6,"step":1,"default":5},{"type":"checkbox","id":"show_view_all","label":"Show view all","default":true},{"type":"checkbox","id":"show_secondary","label":"Show second image on hover","default":true},{"type":"checkbox","id":"show_new","label":"Show new badge (30 days)","default":true},{"type":"checkbox","id":"quick_add","label":"Enable quick add","default":true}],"presets":[{"name":"PixiePinks collection"}]}
+{% endschema %}
