@@ -52,7 +52,6 @@
                     <span>{{ link.title }}</span><span class="pp-nav-chevron" aria-hidden="true">⌄</span>
                   </summary>
                   <div id="PPNavPanel-{{ section.id }}-{{ forloop.index }}" class="pp-nav-dropdown">
-                    <a class="pp-nav-parent-link" href="{{ link.url }}">{{ link.title }}</a>
                     <ul role="list">
                       {% for child in link.links %}
                         <li class="pp-nav-child">
@@ -62,7 +61,6 @@
                                 <span>{{ child.title }}</span><span class="pp-nav-chevron" aria-hidden="true">›</span>
                               </summary>
                               <div id="PPNavPanel-{{ section.id }}-{{ forloop.parentloop.index }}-{{ forloop.index }}" class="pp-nav-dropdown pp-nav-dropdown--nested">
-                                <a class="pp-nav-parent-link" href="{{ child.url }}">{{ child.title }}</a>
                                 <ul role="list">
                                   {% for grandchild in child.links %}<li><a href="{{ grandchild.url }}">{{ grandchild.title }}</a></li>{% endfor %}
                                 </ul>
