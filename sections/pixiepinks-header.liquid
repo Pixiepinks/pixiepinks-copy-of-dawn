@@ -1,0 +1,94 @@
+<div class="pp-header" data-section-id="{{ section.id }}">
+  {% if section.settings.show_trust_bar %}
+    <div class="pp-trust" role="region" aria-label="Store services">
+      <div class="pp-container pp-trust__inner">
+        <ul class="pp-trust__list" role="list">
+          {% if section.blocks.size > 0 %}{% for block in section.blocks %}{% if block.type == 'trust_item' %}<li {{ block.shopify_attributes }}><span aria-hidden="true">{{ block.settings.icon }}</span>{{ block.settings.text }}</li>{% endif %}{% endfor %}{% else %}<li><span aria-hidden="true">🚚</span>Islandwide Delivery</li><li><span aria-hidden="true">♢</span>Secure Payments</li><li><span aria-hidden="true">↩</span>Easy Returns</li><li><span aria-hidden="true">☏</span>Dedicated Customer Support</li>{% endif %}
+        </ul>
+        <div class="pp-trust__socials">
+          {% if section.settings.phone != blank %}<a href="tel:{{ section.settings.phone | remove: ' ' }}">☎ {{ section.settings.phone }}</a>{% endif %}
+          {% if settings.social_facebook_link != blank %}<a href="{{ settings.social_facebook_link }}" aria-label="Facebook">f</a>{% endif %}
+          {% if settings.social_instagram_link != blank %}<a href="{{ settings.social_instagram_link }}" aria-label="Instagram">◎</a>{% endif %}
+          {% if settings.social_youtube_link != blank %}<a href="{{ settings.social_youtube_link }}" aria-label="YouTube">▶</a>{% endif %}
+          {% if settings.social_tiktok_link != blank %}<a href="{{ settings.social_tiktok_link }}" aria-label="TikTok">♪</a>{% endif %}
+          {% if localization.available_languages.size > 1 or localization.available_countries.size > 1 %}
+            {% form 'localization', id: 'PPHeaderLocalization', class: 'pp-localization' %}
+              {% if localization.available_languages.size > 1 %}<label class="visually-hidden" for="PPLanguage">Language</label><select id="PPLanguage" name="locale_code" onchange="this.form.submit()">{% for language in localization.available_languages %}<option value="{{ language.iso_code }}"{% if language.iso_code == localization.language.iso_code %} selected{% endif %}>{{ language.endonym_name | capitalize }}</option>{% endfor %}</select>{% endif %}
+              {% if localization.available_countries.size > 1 %}<label class="visually-hidden" for="PPCountry">Country and currency</label><select id="PPCountry" name="country_code" onchange="this.form.submit()">{% for country in localization.available_countries %}<option value="{{ country.iso_code }}"{% if country.iso_code == localization.country.iso_code %} selected{% endif %}>{{ country.currency.iso_code }}</option>{% endfor %}</select>{% endif %}
+            {% endform %}
+          {% endif %}
+        </div>
+      </div>
+    </div>
+  {% endif %}
+
+  <header class="pp-main-header pp-container" role="banner">
+    <button class="pp-menu-toggle" type="button" aria-label="Open menu" aria-controls="PPMobileMenu" aria-expanded="false">☰</button>
+    <a class="pp-logo" href="{{ routes.root_url }}" aria-label="{{ shop.name | escape }} home">
+      {% if settings.logo != blank %}{{ settings.logo | image_url: width: 440 | image_tag: widths: '180, 260, 360, 440', sizes: '(max-width: 749px) 150px, 220px', loading: 'eager', alt: shop.name }}{% else %}<span>{{ shop.name }}</span>{% endif %}
+    </a>
+    <form class="pp-search" action="{{ routes.search_url }}" method="get" role="search">
+      <label class="visually-hidden" for="PPHeaderSearch">Search products</label>
+      <input id="PPHeaderSearch" type="search" name="q" value="{{ search.terms | escape }}" placeholder="{{ section.settings.search_placeholder | escape }}" autocomplete="off">
+      <input type="hidden" name="type" value="product">
+      <button type="submit" aria-label="Search">⌕</button>
+    </form>
+    <div class="pp-header-actions">
+      {% if shop.customer_accounts_enabled %}<a href="{% if customer %}{{ routes.account_url }}{% else %}{{ routes.account_login_url }}{% endif %}" aria-label="Account"><span aria-hidden="true">♙</span><span>{% if customer %}Account{% else %}Login / Sign Up{% endif %}</span></a>{% endif %}
+      {% if section.settings.wishlist_link != blank %}<a href="{{ section.settings.wishlist_link }}" aria-label="Wishlist"><span aria-hidden="true">♡</span><span>Wishlist</span></a>{% endif %}
+      <a href="{{ routes.cart_url }}" aria-label="Cart, {{ cart.item_count }} items"><span aria-hidden="true">🛒</span><span>Cart</span><b>{{ cart.item_count }}</b></a>
+    </div>
+  </header>
+
+  <nav class="pp-category-bar" aria-label="Product categories">
+    <div class="pp-container pp-category-bar__inner" id="PPMobileMenu">
+      {% if section.settings.menu != blank %}
+        <ul class="pp-nav-list" role="list">
+          {% for link in section.settings.menu.links %}
+            <li class="pp-nav-item">
+              {% if link.links != blank %}
+                <details id="PPNav-{{ section.id }}-{{ forloop.index }}" class="pp-nav-details">
+                  <summary aria-controls="PPNavPanel-{{ section.id }}-{{ forloop.index }}" aria-expanded="false">
+                    <span>{{ link.title }}</span><span class="pp-nav-chevron" aria-hidden="true">⌄</span>
+                  </summary>
+                  <div id="PPNavPanel-{{ section.id }}-{{ forloop.index }}" class="pp-nav-dropdown">
+                    <ul role="list">
+                      {% for child in link.links %}
+                        <li class="pp-nav-child">
+                          {% if child.links != blank %}
+                            <details id="PPNav-{{ section.id }}-{{ forloop.parentloop.index }}-{{ forloop.index }}" class="pp-nav-details pp-nav-details--nested">
+                              <summary aria-controls="PPNavPanel-{{ section.id }}-{{ forloop.parentloop.index }}-{{ forloop.index }}" aria-expanded="false">
+                                <span>{{ child.title }}</span><span class="pp-nav-chevron" aria-hidden="true">›</span>
+                              </summary>
+                              <div id="PPNavPanel-{{ section.id }}-{{ forloop.parentloop.index }}-{{ forloop.index }}" class="pp-nav-dropdown pp-nav-dropdown--nested">
+                                <ul role="list">
+                                  {% for grandchild in child.links %}<li><a href="{{ grandchild.url }}">{{ grandchild.title }}</a></li>{% endfor %}
+                                </ul>
+                              </div>
+                            </details>
+                          {% else %}
+                            <a href="{{ child.url }}">{{ child.title }}</a>
+                          {% endif %}
+                        </li>
+                      {% endfor %}
+                    </ul>
+                  </div>
+                </details>
+              {% else %}
+                <a class="pp-nav-direct" href="{{ link.url }}">{{ link.title }}</a>
+              {% endif %}
+            </li>
+          {% endfor %}
+        </ul>
+      {% else %}
+        <a class="pp-nav-fallback" href="{{ routes.all_products_collection_url }}">All Categories</a>
+        <a class="pp-nav-fallback" href="{{ routes.collections_url }}">More</a>
+      {% endif %}
+      {% if section.settings.offers_link != blank %}<a class="pp-offers" href="{{ section.settings.offers_link }}">🎁 {{ section.settings.offers_label }}</a>{% endif %}
+    </div>
+  </nav>
+</div>
+
+{% schema %}
+{"name":"PixiePinks header","settings":[{"type":"checkbox","id":"show_trust_bar","label":"Show trust bar","default":true},{"type":"text","id":"phone","label":"Phone / WhatsApp","default":"070 575 5777"},{"type":"text","id":"search_placeholder","label":"Search placeholder","default":"Search for bicycles, toys, school bags, gift packs and more..."},{"type":"link_list","id":"menu","label":"Category menu"},{"type":"url","id":"wishlist_link","label":"Wishlist page"},{"type":"text","id":"offers_label","label":"Offers label","default":"Today's Offers"},{"type":"url","id":"offers_link","label":"Offers link"}],"blocks":[{"type":"trust_item","name":"Trust item","limit":4,"settings":[{"type":"text","id":"icon","label":"Icon","default":"✓"},{"type":"text","id":"text","label":"Text","default":"Islandwide Delivery"}]}]}
+{% endschema %}
