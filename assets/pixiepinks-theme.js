@@ -46,6 +46,17 @@ document.addEventListener('click', (event) => {
   menu?.classList.toggle('is-open', open);
 });
 
+document.addEventListener('toggle', (event) => {
+  const details = event.target.closest('.pp-nav-details');
+  if (!details) return;
+  details.querySelector(':scope > summary')?.setAttribute('aria-expanded', String(details.open));
+  if (!details.open) return;
+  const siblings = details.parentElement?.parentElement?.querySelectorAll(':scope > li > .pp-nav-details[open]');
+  siblings?.forEach((sibling) => {
+    if (sibling !== details) sibling.removeAttribute('open');
+  });
+}, true);
+
 document.addEventListener('submit', async (event) => {
   const form = event.target.closest('[data-pp-quick-add]');
   if (!form || !window.fetch) return;

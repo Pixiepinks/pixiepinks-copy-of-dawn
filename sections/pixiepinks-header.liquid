@@ -43,12 +43,45 @@
   <nav class="pp-category-bar" aria-label="Product categories">
     <div class="pp-container pp-category-bar__inner" id="PPMobileMenu">
       {% if section.settings.menu != blank %}
-        {% for link in section.settings.menu.links %}
-          <details class="pp-nav-item"{% unless link.links != blank %} data-no-children{% endunless %}>
-            <summary>{% if forloop.first %}<span aria-hidden="true">☰</span>{% endif %}<a href="{{ link.url }}">{{ link.title }}</a>{% if link.links != blank %}<span aria-hidden="true">⌄</span>{% endif %}</summary>
-            {% if link.links != blank %}<div class="pp-nav-dropdown">{% for child in link.links %}<a href="{{ child.url }}">{{ child.title }}</a>{% endfor %}</div>{% endif %}
-          </details>
-        {% endfor %}
+        <ul class="pp-nav-list" role="list">
+          {% for link in section.settings.menu.links %}
+            <li class="pp-nav-item">
+              {% if link.links != blank %}
+                <details id="PPNav-{{ section.id }}-{{ forloop.index }}" class="pp-nav-details">
+                  <summary aria-controls="PPNavPanel-{{ section.id }}-{{ forloop.index }}" aria-expanded="false">
+                    <span>{{ link.title }}</span><span class="pp-nav-chevron" aria-hidden="true">⌄</span>
+                  </summary>
+                  <div id="PPNavPanel-{{ section.id }}-{{ forloop.index }}" class="pp-nav-dropdown">
+                    <a class="pp-nav-parent-link" href="{{ link.url }}">{{ link.title }}</a>
+                    <ul role="list">
+                      {% for child in link.links %}
+                        <li class="pp-nav-child">
+                          {% if child.links != blank %}
+                            <details id="PPNav-{{ section.id }}-{{ forloop.parentloop.index }}-{{ forloop.index }}" class="pp-nav-details pp-nav-details--nested">
+                              <summary aria-controls="PPNavPanel-{{ section.id }}-{{ forloop.parentloop.index }}-{{ forloop.index }}" aria-expanded="false">
+                                <span>{{ child.title }}</span><span class="pp-nav-chevron" aria-hidden="true">›</span>
+                              </summary>
+                              <div id="PPNavPanel-{{ section.id }}-{{ forloop.parentloop.index }}-{{ forloop.index }}" class="pp-nav-dropdown pp-nav-dropdown--nested">
+                                <a class="pp-nav-parent-link" href="{{ child.url }}">{{ child.title }}</a>
+                                <ul role="list">
+                                  {% for grandchild in child.links %}<li><a href="{{ grandchild.url }}">{{ grandchild.title }}</a></li>{% endfor %}
+                                </ul>
+                              </div>
+                            </details>
+                          {% else %}
+                            <a href="{{ child.url }}">{{ child.title }}</a>
+                          {% endif %}
+                        </li>
+                      {% endfor %}
+                    </ul>
+                  </div>
+                </details>
+              {% else %}
+                <a class="pp-nav-direct" href="{{ link.url }}">{{ link.title }}</a>
+              {% endif %}
+            </li>
+          {% endfor %}
+        </ul>
       {% else %}
         <a class="pp-nav-fallback" href="{{ routes.all_products_collection_url }}">All Categories</a>
         <a class="pp-nav-fallback" href="{{ routes.collections_url }}">More</a>
