@@ -31,6 +31,8 @@
     <script src="{{ 'constants.js' | asset_url }}" defer="defer"></script>
     <script src="{{ 'pubsub.js' | asset_url }}" defer="defer"></script>
     <script src="{{ 'global.js' | asset_url }}" defer="defer"></script>
+    <script src="{{ 'search-form.js' | asset_url }}" defer="defer"></script>
+    <script src="{{ 'pixiepinks-dawn-cart.js' | asset_url }}" defer="defer"></script>
     {%- if settings.animations_reveal_on_scroll -%}
       <script src="{{ 'animations.js' | asset_url }}" defer="defer"></script>
     {%- endif -%}
@@ -275,8 +277,12 @@
       {{ 'accessibility.skip_to_text' | t }}
     </a>
 
-    {% section 'cart-icon-bubble' %}
-    {% section 'cart-live-region-text' %}
+    <div id="cart-icon-bubble" class="visually-hidden" aria-hidden="true">
+      {% section 'cart-icon-bubble' %}
+    </div>
+    <div id="cart-live-region-text" class="visually-hidden" aria-live="polite" role="status" aria-hidden="true">
+      {% section 'cart-live-region-text' %}
+    </div>
 
     {%- liquid
       assign has_social_icons = false
@@ -356,6 +362,10 @@
 
     {%- if settings.cart_type == 'drawer' -%}
       {%- render 'cart-drawer' -%}
+    {%- elsif settings.cart_type == 'notification' -%}
+      {{ 'component-cart-notification.css' | asset_url | stylesheet_tag }}
+      <script src="{{ 'cart-notification.js' | asset_url }}" defer="defer"></script>
+      {%- render 'cart-notification' -%}
     {%- endif -%}
 
     {% sections 'header-group' %}

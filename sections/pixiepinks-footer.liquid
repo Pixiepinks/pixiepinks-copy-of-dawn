@@ -6,8 +6,8 @@
     </div>
 
     <div class="footer__links">
-      <a href="{{ routes.all_products_collection_url }}">{{ 'general.search.view_all' | t | default: 'Shop all products' }}</a>
-      <a href="{{ routes.policy_privacy_url | default: routes.root_url }}">{{ 'general.accessibility.privacy_policy' | t | default: 'Privacy' }}</a>
+      <a href="{{ routes.all_products_collection_url }}">Shop all products</a>
+      <a href="{{ shop.privacy_policy.url | default: routes.root_url }}">Privacy</a>
     </div>
 
     <div class="footer__contact">
