@@ -51,14 +51,6 @@
         {% endfor %}
       {% else %}
         <a class="pp-nav-fallback" href="{{ routes.all_products_collection_url }}">All Categories</a>
-        <a class="pp-nav-fallback" href="{{ routes.root_url }}collections/bicycle">Bicycles</a>
-        <a class="pp-nav-fallback" href="{{ routes.root_url }}collections/toys">Toys</a>
-        <a class="pp-nav-fallback" href="{{ routes.root_url }}collections/school-bags-back-packs">School Bags</a>
-        <a class="pp-nav-fallback" href="{{ routes.root_url }}collections/kids-t-shirts">Kids Fashion</a>
-        <a class="pp-nav-fallback" href="{{ routes.root_url }}collections/gift-packs">Gift Packs</a>
-        <a class="pp-nav-fallback" href="{{ routes.root_url }}collections/school-supplies">School Supplies</a>
-        <a class="pp-nav-fallback" href="{{ routes.root_url }}collections/sweet-treats">Chocolates &amp; Treats</a>
-        <a class="pp-nav-fallback" href="{{ routes.root_url }}collections/electric-cars">Electric Cars</a>
         <a class="pp-nav-fallback" href="{{ routes.collections_url }}">More</a>
       {% endif %}
       {% if section.settings.offers_link != blank %}<a class="pp-offers" href="{{ section.settings.offers_link }}">🎁 {{ section.settings.offers_label }}</a>{% endif %}

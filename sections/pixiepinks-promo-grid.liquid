@@ -7,7 +7,7 @@
           {% if block.settings.mobile_image != blank %}<source media="(max-width: 749px)" srcset="{{ block.settings.mobile_image | image_url: width: 750 }}">{% endif %}
           {% if block.settings.desktop_image != blank %}{{ block.settings.desktop_image | image_url: width: 1100 | image_tag: widths: '400, 700, 1100', sizes: '(max-width: 749px) calc(100vw - 24px), 33vw', loading: 'lazy', alt: block.settings.heading }}{% else %}{{ 'collection-1' | placeholder_svg_tag }}{% endif %}
         </picture>
-        <div class="pp-promo__content"><h3>{{ block.settings.heading }}</h3>{% if block.settings.subheading != blank %}<p>{{ block.settings.subheading }}</p>{% endif %}{% if block.settings.button_label != blank %}<a class="pp-button" href="{{ block.settings.link | default: routes.all_products_collection_url }}">{{ block.settings.button_label }}</a>{% endif %}</div>
+        <div class="pp-promo__content"><h3>{{ block.settings.heading }}</h3>{% if block.settings.subheading != blank %}<p>{{ block.settings.subheading }}</p>{% endif %}{% if block.settings.button_label != blank and block.settings.link != blank %}<a class="pp-button" href="{{ block.settings.link }}">{{ block.settings.button_label }}</a>{% endif %}</div>
       </article>
     {% endfor %}
   </div>

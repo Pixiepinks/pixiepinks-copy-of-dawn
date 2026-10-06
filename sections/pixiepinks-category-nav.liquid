@@ -1,7 +1,7 @@
 <section class="pp-section pp-container">
   {% if section.settings.heading != blank %}<div class="pp-heading-row"><h2>{{ section.settings.heading }}</h2></div>{% endif %}
   <div class="pp-categories" role="list" aria-label="{{ section.settings.heading | default: 'Shop by category' | escape }}">
-    {% for block in section.blocks %}<a class="pp-category" role="listitem" href="{{ block.settings.link | default: routes.all_products_collection_url }}" {{ block.shopify_attributes }}><div class="pp-category__image" style="--pp-bg:{{ block.settings.background }}">{% if block.settings.image != blank %}{{ block.settings.image | image_url: width: 240 | image_tag: widths: '100, 160, 240', sizes: '106px', loading: 'lazy', alt: block.settings.title }}{% else %}<span class="pp-placeholder" aria-hidden="true">{{ block.settings.emoji }}</span>{% endif %}</div><span>{{ block.settings.title }}</span></a>{% endfor %}
+    {% for block in section.blocks %}{% if block.settings.link != blank %}<a class="pp-category" role="listitem" href="{{ block.settings.link }}" {{ block.shopify_attributes }}>{% else %}<div class="pp-category" role="listitem" {{ block.shopify_attributes }}>{% endif %}<div class="pp-category__image" style="--pp-bg:{{ block.settings.background }}">{% if block.settings.image != blank %}{{ block.settings.image | image_url: width: 240 | image_tag: widths: '100, 160, 240', sizes: '106px', loading: 'lazy', alt: block.settings.title }}{% else %}<span class="pp-placeholder" aria-hidden="true">{{ block.settings.emoji }}</span>{% endif %}</div><span>{{ block.settings.title }}</span>{% if block.settings.link != blank %}</a>{% else %}</div>{% endif %}{% endfor %}
   </div>
 </section>
 {% schema %}

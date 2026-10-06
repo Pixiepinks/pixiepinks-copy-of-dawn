@@ -40,8 +40,7 @@
         "phone": "070 575 5777",
         "search_placeholder": "Search for bicycles, toys, school bags, gift packs and more...",
         "menu": "main-menu",
-        "offers_label": "Today's Offers",
-        "offers_link": "shopify://collections/sale"
+        "offers_label": "Today's Offers"
       }
     }
   },
