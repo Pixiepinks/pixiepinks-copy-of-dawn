@@ -1,0 +1,49 @@
+{
+  "type": "header",
+  "name": "PixiePinks header group",
+  "sections": {
+    "pixiepinks_header": {
+      "type": "pixiepinks-header",
+      "blocks": {
+        "delivery": {
+          "type": "trust_item",
+          "settings": {
+            "icon": "🚚",
+            "text": "Islandwide Delivery"
+          }
+        },
+        "payments": {
+          "type": "trust_item",
+          "settings": {
+            "icon": "♢",
+            "text": "Secure Payments"
+          }
+        },
+        "returns": {
+          "type": "trust_item",
+          "settings": {
+            "icon": "↩",
+            "text": "Easy Returns"
+          }
+        },
+        "support": {
+          "type": "trust_item",
+          "settings": {
+            "icon": "☏",
+            "text": "Dedicated Customer Support"
+          }
+        }
+      },
+      "block_order": ["delivery", "payments", "returns", "support"],
+      "settings": {
+        "show_trust_bar": true,
+        "phone": "070 575 5777",
+        "search_placeholder": "Search for bicycles, toys, school bags, gift packs and more...",
+        "menu": "main-menu",
+        "offers_label": "Today's Offers",
+        "offers_link": "shopify://collections/sale"
+      }
+    }
+  },
+  "order": ["pixiepinks_header"]
+}
