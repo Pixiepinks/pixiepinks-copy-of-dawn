@@ -1,0 +1,11 @@
+{
+  "type": "footer",
+  "name": "PP Footer Group",
+  "sections": {
+    "pixiepinks_footer": {
+      "type": "pixiepinks-footer",
+      "settings": {}
+    }
+  },
+  "order": ["pixiepinks_footer"]
+}
