@@ -1,19 +1,16 @@
-<div id="cart-icon-bubble" class="header__action header__action--cart visually-hidden" role="navigation" aria-hidden="true">
-  <a href="{{ routes.cart_url }}" class="header__action-link" aria-label="{{ 'sections.cart.title' | t | default: 'Cart' }}">
-    {% render 'icon-cart' %}
-    <span class="visually-hidden">{{ 'sections.cart.title' | t | default: 'Cart' }}</span>
-    {% if cart.item_count > 0 %}
-      <span class="cart-count-bubble" aria-live="polite">
-        <span aria-hidden="true">{{ cart.item_count }}</span>
-        <span class="visually-hidden">{{ 'sections.cart.cart_items' | t: count: cart.item_count | default: cart.item_count }}</span>
-      </span>
-    {% endif %}
-  </a>
-</div>
-
-{% schema %}
-{
-  "name": "Cart icon bubble",
-  "settings": []
-}
-{% endschema %}
+{%- liquid
+  if cart == empty
+    render 'icon-cart-empty'
+  else
+    render 'icon-cart'
+  endif
+-%}
+<span class="visually-hidden">{{ 'templates.cart.cart' | t }}</span>
+{%- if cart != empty -%}
+  <div class="cart-count-bubble">
+    {%- if cart.item_count < 100 -%}
+      <span aria-hidden="true">{{ cart.item_count }}</span>
+    {%- endif -%}
+    <span class="visually-hidden">{{ 'sections.header.cart_count' | t: count: cart.item_count }}</span>
+  </div>
+{%- endif -%}
